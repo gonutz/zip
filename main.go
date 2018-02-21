@@ -18,11 +18,14 @@ var (
 
 func usage() {
 	fmt.Print(`Usage of zip:
-  Provide one or more file/folder paths to be zipped into one .zip file.
+
+  zip [-to=out/path] file1 [file2 ...]
+
+  Provide one or more file/folder paths to be archived into one .zip file.
   All paths must be rooted in the same folder.
   The default output file name is that of the first given input file with the
-  extension changed to .zip.
-  Provide a specific output path with the -to option.
+  extension changed to .zip. Provide the -to option as the first argument to
+  overwrite this path.
 `)
 }
 
@@ -36,8 +39,8 @@ func main() {
 	}
 
 	root := filepath.Dir(args[0])
-	for range args[1:] {
-		dir := filepath.Dir(args[0])
+	for _, arg := range args[1:] {
+		dir := filepath.Dir(arg)
 		if dir != root {
 			panic("all input files must be in the same folder")
 		}
